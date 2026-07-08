@@ -1,0 +1,336 @@
+2026-07-08 22:36:03  [INFO]  ============================================================
+2026-07-08 22:36:03  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_223603
+2026-07-08 22:36:03  [INFO]  ============================================================
+2026-07-08 22:36:03  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:36:03  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:36:03  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:36:03  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales;']
+2026-07-08 22:36:03  [WARNING]  2447 rows had unparseable order_date values.
+2026-07-08 22:36:03  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:36:03  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:36:03  [ERROR]  ============================================================
+2026-07-08 22:36:03  [ERROR]    PIPELINE FAILED in 0.38s
+2026-07-08 22:36:03  [ERROR]    Error: 'sales'
+2026-07-08 22:36:03  [ERROR]  ============================================================
+2026-07-08 22:36:31  [INFO]  ============================================================
+2026-07-08 22:36:31  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_223631
+2026-07-08 22:36:31  [INFO]  ============================================================
+2026-07-08 22:36:31  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:36:31  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:36:31  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:36:31  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:36:31  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:36:31  [WARNING]  6837 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:36:31  [WARNING]  WARNING: More than 10% of dates unparseable (6837/9800)!
+2026-07-08 22:36:31  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:36:31  [INFO]  Missing values: 50496 before -> 13781 after handling.
+2026-07-08 22:36:31  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:36:31  [ERROR]  ============================================================
+2026-07-08 22:36:31  [ERROR]    PIPELINE FAILED in 0.38s
+2026-07-08 22:36:31  [ERROR]    Error: '<=' not supported between instances of 'str' and 'int'
+2026-07-08 22:36:31  [ERROR]  ============================================================
+2026-07-08 22:36:49  [INFO]  ============================================================
+2026-07-08 22:36:49  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_223649
+2026-07-08 22:36:49  [INFO]  ============================================================
+2026-07-08 22:36:49  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:36:49  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:36:49  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:36:49  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:36:49  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:36:49  [WARNING]  6837 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:36:49  [WARNING]  WARNING: More than 10% of dates unparseable (6837/9800)!
+2026-07-08 22:36:49  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:36:49  [INFO]  Missing values: 50496 before -> 13781 after handling.
+2026-07-08 22:36:49  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:36:49  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:36:49  [INFO]  --- Transformation complete | Final shape: (6, 24) ---
+2026-07-08 22:36:49  [INFO]  STEP 3: LOAD
+2026-07-08 22:36:49  [INFO]  Loaded 6 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:36:49  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:36:49  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:36:49  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:36:50  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:36:50  [INFO]  All summary reports generated successfully.
+2026-07-08 22:36:50  [INFO]  ============================================================
+2026-07-08 22:36:50  [INFO]    PIPELINE COMPLETE in 0.31s
+2026-07-08 22:36:50  [INFO]    Rows processed : 6
+2026-07-08 22:36:50  [INFO]    Reports        : output/
+2026-07-08 22:36:50  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:36:50  [INFO]  ============================================================
+2026-07-08 22:37:21  [INFO]  ============================================================
+2026-07-08 22:37:21  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_223721
+2026-07-08 22:37:21  [INFO]  ============================================================
+2026-07-08 22:37:21  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:37:21  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:37:21  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:37:21  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:37:21  [INFO]  Initial rows: 9800
+2026-07-08 22:37:21  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:37:21  [WARNING]  6837 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:37:21  [WARNING]  WARNING: More than 10% of dates unparseable (6837/9800)!
+2026-07-08 22:37:21  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:37:21  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:37:21  [INFO]  Missing values: 50496 before -> 13781 after handling.
+2026-07-08 22:37:21  [INFO]  After handle_missing: 9800 rows
+2026-07-08 22:37:21  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:37:21  [INFO]  After remove_duplicates: 9800 rows
+2026-07-08 22:37:21  [INFO]  After validate_sales: 6 rows
+2026-07-08 22:37:21  [WARNING]  3 rows with invalid order_date (removed from analysis)
+2026-07-08 22:37:21  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:37:21  [INFO]  After engineer_features: 6 rows
+2026-07-08 22:37:21  [INFO]  --- Transformation complete | Final shape: (6, 24) ---
+2026-07-08 22:37:21  [INFO]  STEP 3: LOAD
+2026-07-08 22:37:21  [INFO]  Loaded 6 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:37:21  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:37:21  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:37:21  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:37:21  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:37:21  [INFO]  All summary reports generated successfully.
+2026-07-08 22:37:21  [INFO]  ============================================================
+2026-07-08 22:37:21  [INFO]    PIPELINE COMPLETE in 0.26s
+2026-07-08 22:37:21  [INFO]    Rows processed : 6
+2026-07-08 22:37:21  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:37:21  [INFO]    Reports        : output/
+2026-07-08 22:37:21  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:37:21  [INFO]  ============================================================
+2026-07-08 22:37:52  [INFO]  ============================================================
+2026-07-08 22:37:52  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_223752
+2026-07-08 22:37:52  [INFO]  ============================================================
+2026-07-08 22:37:52  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:37:52  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:37:52  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:37:52  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:37:52  [INFO]  Initial rows: 9800
+2026-07-08 22:37:52  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:37:52  [WARNING]  6837 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:37:52  [WARNING]  WARNING: More than 10% of dates unparseable (6837/9800)!
+2026-07-08 22:37:52  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:37:52  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:37:52  [INFO]  Missing values: 50496 before -> 13781 after handling.
+2026-07-08 22:37:52  [INFO]  After handle_missing: 9800 rows
+2026-07-08 22:37:52  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:37:52  [INFO]  After remove_duplicates: 9800 rows
+2026-07-08 22:37:52  [WARNING]  9794 rows with invalid, zero, or negative sales removed.
+2026-07-08 22:37:52  [INFO]  After validate_sales: 6 rows
+2026-07-08 22:37:52  [WARNING]  3 rows with invalid order_date (removed from analysis)
+2026-07-08 22:37:52  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:37:52  [INFO]  After engineer_features: 6 rows
+2026-07-08 22:37:52  [INFO]  --- Transformation complete | Final shape: (6, 24) ---
+2026-07-08 22:37:52  [INFO]  STEP 3: LOAD
+2026-07-08 22:37:53  [INFO]  Loaded 6 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:37:53  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:37:53  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:37:53  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:37:53  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:37:53  [INFO]  All summary reports generated successfully.
+2026-07-08 22:37:53  [INFO]  ============================================================
+2026-07-08 22:37:53  [INFO]    PIPELINE COMPLETE in 0.27s
+2026-07-08 22:37:53  [INFO]    Rows processed : 6
+2026-07-08 22:37:53  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:37:53  [INFO]    Reports        : output/
+2026-07-08 22:37:53  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:37:53  [INFO]  ============================================================
+2026-07-08 22:39:44  [INFO]  ============================================================
+2026-07-08 22:39:44  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_223944
+2026-07-08 22:39:44  [INFO]  ============================================================
+2026-07-08 22:39:44  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:39:44  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:39:44  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:39:44  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:39:44  [INFO]  Initial rows: 9800
+2026-07-08 22:39:44  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:39:44  [WARNING]  6837 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:39:44  [WARNING]  WARNING: More than 10% of dates unparseable (6837/9800)!
+2026-07-08 22:39:44  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:39:44  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:39:44  [INFO]  Missing values: 50496 before -> 13781 after handling.
+2026-07-08 22:39:44  [INFO]  After handle_missing: 9800 rows
+2026-07-08 22:39:44  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:39:44  [INFO]  After remove_duplicates: 9800 rows
+2026-07-08 22:39:44  [WARNING]  9794 rows with invalid, zero, or negative sales removed.
+2026-07-08 22:39:44  [INFO]  After validate_sales: 6 rows
+2026-07-08 22:39:44  [WARNING]  3 rows with invalid order_date (removed from analysis)
+2026-07-08 22:39:44  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:39:44  [INFO]  After engineer_features: 6 rows
+2026-07-08 22:39:44  [INFO]  --- Transformation complete | Final shape: (6, 24) ---
+2026-07-08 22:39:44  [INFO]  STEP 3: LOAD
+2026-07-08 22:39:44  [INFO]  Loaded 6 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:39:44  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:39:44  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:39:44  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:39:44  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:39:44  [INFO]  All summary reports generated successfully.
+2026-07-08 22:39:44  [INFO]  ============================================================
+2026-07-08 22:39:44  [INFO]    PIPELINE COMPLETE in 0.3s
+2026-07-08 22:39:44  [INFO]    Rows processed : 6
+2026-07-08 22:39:44  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:39:44  [INFO]    Reports        : output/
+2026-07-08 22:39:44  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:39:44  [INFO]  ============================================================
+2026-07-08 22:40:51  [INFO]  ============================================================
+2026-07-08 22:40:51  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_224051
+2026-07-08 22:40:51  [INFO]  ============================================================
+2026-07-08 22:40:51  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:40:52  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:40:52  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:40:52  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:40:52  [INFO]  Initial rows: 9800
+2026-07-08 22:40:52  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:40:52  [WARNING]  2447 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:40:52  [WARNING]  WARNING: More than 10% of dates unparseable (2447/9800)!
+2026-07-08 22:40:52  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:40:52  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:40:52  [INFO]  Missing values: 41609 before -> 4894 after handling.
+2026-07-08 22:40:52  [INFO]  After handle_missing: 9800 rows
+2026-07-08 22:40:52  [INFO]  Duplicates removed: 0 | Rows remaining: 9800
+2026-07-08 22:40:52  [INFO]  After remove_duplicates: 9800 rows
+2026-07-08 22:40:52  [WARNING]  9794 rows with invalid, zero, or negative sales removed.
+2026-07-08 22:40:52  [INFO]  After validate_sales: 6 rows
+2026-07-08 22:40:52  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:40:52  [INFO]  After engineer_features: 6 rows
+2026-07-08 22:40:52  [INFO]  --- Transformation complete | Final shape: (6, 24) ---
+2026-07-08 22:40:52  [INFO]  STEP 3: LOAD
+2026-07-08 22:40:52  [INFO]  Loaded 6 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:40:52  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:40:52  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:40:52  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:40:52  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:40:52  [INFO]  All summary reports generated successfully.
+2026-07-08 22:40:52  [INFO]  ============================================================
+2026-07-08 22:40:52  [INFO]    PIPELINE COMPLETE in 0.22s
+2026-07-08 22:40:52  [INFO]    Rows processed : 6
+2026-07-08 22:40:52  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:40:52  [INFO]    Reports        : output/
+2026-07-08 22:40:52  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:40:52  [INFO]  ============================================================
+2026-07-08 22:41:47  [INFO]  ============================================================
+2026-07-08 22:41:47  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_224147
+2026-07-08 22:41:47  [INFO]  ============================================================
+2026-07-08 22:41:47  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:41:47  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:41:47  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:41:47  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:41:47  [INFO]  Initial rows: 9800
+2026-07-08 22:41:47  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:41:47  [WARNING]  2447 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:41:47  [WARNING]  WARNING: More than 10% of dates unparseable (2447/9800)!
+2026-07-08 22:41:47  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:41:47  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:41:47  [INFO]  Dropped 2447 rows with missing critical data | 7353 rows remaining
+2026-07-08 22:41:47  [INFO]  After handle_missing: 7353 rows
+2026-07-08 22:41:47  [INFO]  Duplicates removed: 0 | Rows remaining: 7353
+2026-07-08 22:41:47  [INFO]  After remove_duplicates: 7353 rows
+2026-07-08 22:41:47  [WARNING]  7347 rows with invalid, zero, or negative sales removed.
+2026-07-08 22:41:47  [INFO]  After validate_sales: 6 rows
+2026-07-08 22:41:47  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:41:47  [INFO]  After engineer_features: 6 rows
+2026-07-08 22:41:47  [INFO]  --- Transformation complete | Final shape: (6, 24) ---
+2026-07-08 22:41:47  [INFO]  STEP 3: LOAD
+2026-07-08 22:41:47  [INFO]  Loaded 6 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:41:47  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:41:47  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:41:47  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:41:47  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:41:47  [INFO]  All summary reports generated successfully.
+2026-07-08 22:41:47  [INFO]  ============================================================
+2026-07-08 22:41:47  [INFO]    PIPELINE COMPLETE in 0.2s
+2026-07-08 22:41:47  [INFO]    Rows processed : 6
+2026-07-08 22:41:47  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:41:47  [INFO]    Reports        : output/
+2026-07-08 22:41:47  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:41:47  [INFO]  ============================================================
+2026-07-08 22:42:15  [INFO]  ============================================================
+2026-07-08 22:42:15  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_224215
+2026-07-08 22:42:15  [INFO]  ============================================================
+2026-07-08 22:42:15  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:42:15  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:42:15  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:42:15  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:42:15  [INFO]  Initial rows: 9800
+2026-07-08 22:42:15  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:42:15  [WARNING]  2447 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:42:15  [WARNING]  WARNING: More than 10% of dates unparseable (2447/9800)!
+2026-07-08 22:42:15  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:42:15  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:42:15  [INFO]  Dropped 2447 rows with missing critical data | 7353 rows remaining
+2026-07-08 22:42:15  [INFO]  After handle_missing: 7353 rows
+2026-07-08 22:42:15  [INFO]  Duplicates removed: 0 | Rows remaining: 7353
+2026-07-08 22:42:15  [INFO]  After remove_duplicates: 7353 rows
+2026-07-08 22:42:15  [ERROR]  ============================================================
+2026-07-08 22:42:15  [ERROR]    PIPELINE FAILED in 0.13s
+2026-07-08 22:42:15  [ERROR]    Error: '>' not supported between instances of 'str' and 'int'
+2026-07-08 22:42:15  [ERROR]  ============================================================
+2026-07-08 22:42:37  [INFO]  ============================================================
+2026-07-08 22:42:37  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_224237
+2026-07-08 22:42:37  [INFO]  ============================================================
+2026-07-08 22:42:37  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:42:38  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:42:38  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:42:38  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:42:38  [INFO]  Initial rows: 9800
+2026-07-08 22:42:38  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:42:38  [WARNING]  2447 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:42:38  [WARNING]  WARNING: More than 10% of dates unparseable (2447/9800)!
+2026-07-08 22:42:38  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:42:38  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:42:38  [INFO]  Dropped 2447 rows with missing critical data | 7353 rows remaining
+2026-07-08 22:42:38  [INFO]  After handle_missing: 7353 rows
+2026-07-08 22:42:38  [INFO]  Duplicates removed: 0 | Rows remaining: 7353
+2026-07-08 22:42:38  [INFO]  After remove_duplicates: 7353 rows
+2026-07-08 22:42:38  [INFO]  Sales dtype before validation: str
+2026-07-08 22:42:38  [INFO]  Converting sales to numeric...
+2026-07-08 22:42:38  [INFO]  Sales dtype after conversion: float64
+2026-07-08 22:42:38  [INFO]  Valid sales values: 7353, NaN: 0
+2026-07-08 22:42:38  [INFO]  After validate_sales: 7353 rows
+2026-07-08 22:42:38  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:42:38  [INFO]  After engineer_features: 7353 rows
+2026-07-08 22:42:38  [INFO]  --- Transformation complete | Final shape: (7353, 24) ---
+2026-07-08 22:42:38  [INFO]  STEP 3: LOAD
+2026-07-08 22:42:38  [INFO]  Loaded 7,353 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:42:38  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:42:38  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:42:38  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:42:38  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:42:38  [INFO]  All summary reports generated successfully.
+2026-07-08 22:42:38  [INFO]  ============================================================
+2026-07-08 22:42:38  [INFO]    PIPELINE COMPLETE in 0.48s
+2026-07-08 22:42:38  [INFO]    Rows processed : 7,353
+2026-07-08 22:42:38  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:42:38  [INFO]    Reports        : output/
+2026-07-08 22:42:38  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:42:38  [INFO]  ============================================================
+2026-07-08 22:43:03  [INFO]  ============================================================
+2026-07-08 22:43:03  [INFO]    SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_224303
+2026-07-08 22:43:03  [INFO]  ============================================================
+2026-07-08 22:43:03  [INFO]  STEP 1: EXTRACT
+2026-07-08 22:43:03  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
+2026-07-08 22:43:03  [INFO]  STEP 2: TRANSFORM
+2026-07-08 22:43:03  [INFO]  --- Starting transformation chain ---
+2026-07-08 22:43:03  [INFO]  Initial rows: 9800
+2026-07-08 22:43:03  [INFO]  Columns standardised: ['row_id', 'order_id', 'order_date', 'ship_date', 'ship_mode', 'customer_id', 'customer_name', 'segment', 'country', 'city', 'state', 'postal_code', 'region', 'product_id', 'category', 'sub_category', 'product_name', 'sales']
+2026-07-08 22:43:03  [WARNING]  2447 rows had unparseable order_date values. Consider checking date format.
+2026-07-08 22:43:03  [WARNING]  WARNING: More than 10% of dates unparseable (2447/9800)!
+2026-07-08 22:43:03  [INFO]  Date columns parsed to datetime.
+2026-07-08 22:43:03  [INFO]  After parse_dates: 9800 rows
+2026-07-08 22:43:03  [INFO]  Dropped 2447 rows with missing critical data | 7353 rows remaining
+2026-07-08 22:43:03  [INFO]  After handle_missing: 7353 rows
+2026-07-08 22:43:03  [INFO]  Duplicates removed: 0 | Rows remaining: 7353
+2026-07-08 22:43:03  [INFO]  After remove_duplicates: 7353 rows
+2026-07-08 22:43:03  [INFO]  After validate_sales: 7353 rows
+2026-07-08 22:43:03  [INFO]  Feature engineering complete: order_year, order_month, order_quarter, shipping_days, sales_band, is_high_value
+2026-07-08 22:43:03  [INFO]  After engineer_features: 7353 rows
+2026-07-08 22:43:03  [INFO]  --- Transformation complete | Final shape: (7353, 24) ---
+2026-07-08 22:43:03  [INFO]  STEP 3: LOAD
+2026-07-08 22:43:03  [INFO]  Loaded 7,353 rows into 'sales_fact' table in warehouse.db
+2026-07-08 22:43:03  [INFO]  Summary saved: output\revenue_by_category.csv
+2026-07-08 22:43:03  [INFO]  Summary saved: output\revenue_by_region.csv
+2026-07-08 22:43:03  [INFO]  Summary saved: output\monthly_revenue_trend.csv
+2026-07-08 22:43:03  [INFO]  Summary saved: output\top_customers.csv
+2026-07-08 22:43:03  [INFO]  All summary reports generated successfully.
+2026-07-08 22:43:03  [INFO]  ============================================================
+2026-07-08 22:43:03  [INFO]    PIPELINE COMPLETE in 0.47s
+2026-07-08 22:43:03  [INFO]    Rows processed : 7,353
+2026-07-08 22:43:03  [INFO]    Warehouse      : warehouse.db (sales_fact table)
+2026-07-08 22:43:03  [INFO]    Reports        : output/
+2026-07-08 22:43:03  [INFO]    Log            : logs/pipeline.log
+2026-07-08 22:43:03  [INFO]  ============================================================
