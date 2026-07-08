@@ -1,122 +1,297 @@
-Markdown
 # Superstore Sales ETL Pipeline
 
-A modular Python ETL pipeline that processes raw retail sales data through a full Extract → Transform → Load workflow — simulating how production data engineering teams move data cleanly from source systems into a structured queryable data warehouse.
+A modular Python **Extract → Transform → Load (ETL)** pipeline that processes raw retail sales data into a clean SQLite data warehouse and automatically generates analytical reports.
 
-The entire pipeline runs with a single command and completes in under one second.
+The project simulates a real-world data engineering workflow by extracting raw transactional data, performing extensive cleaning and feature engineering, loading the processed data into a relational database, and exporting business-ready summary reports.
 
 ---
 
-## 🏗️ Pipeline Architecture
+## Features
 
+- Modular ETL architecture
+- Automated data cleaning and validation
+- Feature engineering for analytics
+- SQLite data warehouse
+- Automatic CSV report generation
+- Comprehensive execution logging
+- Runs with a single command
+- Completes in under one second
+
+---
+
+# Pipeline Architecture
+
+```text
 data/superstore_raw.csv
-│
-▼
-┌───────────────────┐
-│   EXTRACT         │  Read raw CSV into memory with robust quoting controls
-└────────┬──────────┘
-│
-▼
-┌───────────────────┐
-│   TRANSFORM       │  Clean → Validate → Engineer Features
-│                   │
-│  • Standardise column names (lowercase + underscores)
-│  • Parse date strings using localized formatting logic (DD/MM/YYYY)
-│  • Drop invalid/corrupt records with missing critical identifiers
-│  • Remove trailing formatting anomalies (rstrip semicolons from Sales)
-│  • Engineer: order_year, order_month, order_quarter,
-│              shipping_days, sales_band, is_high_value
-└────────┬──────────┘
-│
-▼
-┌───────────────────┐
-│   LOAD            │  Write to SQLite Warehouse + Aggregated CSV Reports
-└───────────────────┘
-│
-├── warehouse.db         → sales_fact table (7,353 rows, 24 columns)
-├── output/revenue_by_category.csv
-├── output/revenue_by_region.csv
-├── output/monthly_revenue_trend.csv
-└── output/top_customers.csv
-
-
----
-
-## 🚀 Key Pipeline Features
-
-📦 1. Extract
-Reads `superstore_raw.csv` dynamically from the local directory. Validates the raw file exists before starting computation and utilizes explicit quoting rules parameters to manage mixed text fields cleanly.
-
-⚙️ 2. Transform
-Multi-stage data cleaning operations run sequentially, isolated inside modular functions within `transform.py`:
-* **Column Standardization:** Converts headers to clean lowercase and snake_case formatting.
-* **Localized Date Parsing:** Safely processes international string formats (DD/MM/YYYY) avoiding silent data conversion dropping.
-* **Record Validation:** Automatically isolates and drops rows with unparseable data or null critical tracking IDs to protect down-stream transactional integrity.
-* **String Massage:** Safely cleans trailing system punctuation (like trailing semicolons in financial values) to secure exact data type casting.
-* **Feature Engineering:** Computes and appends 6 derived analytical columns on the fly for immediate analytics consumption.
-
-💾 3. Load & Reporting
-Persists the final 7,353 cleaned rows into a relational SQLite database (`warehouse.db`) table using a full-refresh pattern. The pipeline isolates database transactions inside strict `try-except-finally` blocks to completely eliminate thread locking and resource leaks. Concurrently, it compiles and exports 4 analytical views for executive tracking.
-
-📊 4. Telemetry Logging
-Every step writes runtime logs featuring precise timestamps to both standard out and a rolling, persistent file log tracker (`logs/pipeline.log`) for execution audatibility.
+        │
+        ▼
+┌──────────────────────────────┐
+│          EXTRACT             │
+│ Read raw CSV into memory     │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│         TRANSFORM            │
+│                              │
+│ • Standardise column names   │
+│ • Parse dates                │
+│ • Validate records           │
+│ • Remove formatting issues   │
+│ • Engineer new features      │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│            LOAD              │
+│ SQLite Warehouse             │
+│ CSV Summary Reports          │
+└──────────────────────────────┘
+               │
+               ├── warehouse.db
+               ├── revenue_by_category.csv
+               ├── revenue_by_region.csv
+               ├── monthly_revenue_trend.csv
+               └── top_customers.csv
+```
 
 ---
 
-## 📂 Project Structure
+# Project Structure
 
 ```text
 etl-sales-pipeline/
-├── etl_pipeline.py          # Main orchestrator — project entry point
-├── transform.py             # Data transformation and cleaning logic
-├── loader.py                # Database connection and reporting logic
-├── requirements.txt         # Project package dependencies
+│
+├── etl_pipeline.py          # Main ETL orchestrator
+├── transform.py             # Data cleaning & feature engineering
+├── loader.py                # Database loading & report generation
+├── requirements.txt
+│
 ├── data/
-│   └── superstore_raw.csv   # Raw input transactional records
-├── output/                  # Generated dynamically on execution
+│   └── superstore_raw.csv
+│
+├── output/
 │   ├── monthly_revenue_trend.csv
 │   ├── revenue_by_category.csv
 │   ├── revenue_by_region.csv
 │   └── top_customers.csv
-├── logs/                    # Generated dynamically on execution
+│
+├── logs/
 │   └── pipeline.log
-└── warehouse.db             # SQLite Relational Warehouse (generated on run)
-🛠️ How to Run
-1. Clone the repository
-Bash
-git clone [https://github.com/Zwavhudi05/etl-sales-pipeline.git](https://github.com/Zwavhudi05/etl-sales-pipeline.git)
+│
+└── warehouse.db
+```
+
+---
+
+# ⚙️ ETL Workflow
+
+## 1️⃣ Extract
+
+The pipeline:
+
+- Reads the raw CSV dataset
+- Validates the file exists
+- Uses explicit CSV parsing options
+- Loads the dataset into a Pandas DataFrame
+
+---
+
+## 2️⃣ Transform
+
+The transformation stage performs multiple data quality operations.
+
+### Column Standardisation
+
+- Converts column names to lowercase
+- Replaces spaces with underscores
+
+Example:
+
+```
+Order Date
+```
+
+becomes
+
+```
+order_date
+```
+
+---
+
+### Date Parsing
+
+Safely converts localized date strings (`DD/MM/YYYY`) into proper datetime objects.
+
+---
+
+### Data Validation
+
+Automatically removes records containing:
+
+- Missing Order IDs
+- Missing Customer IDs
+- Invalid dates
+- Corrupt records
+
+---
+
+### Data Cleaning
+
+Removes formatting anomalies including:
+
+- Trailing semicolons
+- Incorrect numeric formatting
+- Invalid data types
+
+---
+
+### Feature Engineering
+
+Creates six analytical columns:
+
+| Feature | Description |
+|----------|-------------|
+| order_year | Year of purchase |
+| order_month | Month number |
+| order_quarter | Quarter of sale |
+| shipping_days | Delivery duration |
+| sales_band | Sales category |
+| is_high_value | High-value transaction flag |
+
+---
+
+## 3️⃣ Load
+
+The cleaned dataset is loaded into a SQLite data warehouse using a full-refresh approach.
+
+Database table:
+
+```
+sales_fact
+```
+
+The pipeline also exports four analytical reports:
+
+- Revenue by Category
+- Revenue by Region
+- Monthly Revenue Trend
+- Top Customers
+
+---
+
+## 📊 Output
+
+After execution, the project generates:
+
+```text
+warehouse.db
+
+output/
+├── revenue_by_category.csv
+├── revenue_by_region.csv
+├── monthly_revenue_trend.csv
+└── top_customers.csv
+```
+
+---
+
+# 📝 Logging
+
+Every ETL stage is logged with timestamps.
+
+Example:
+
+```text
+2026-07-08 22:55:04 [INFO] STEP 1: EXTRACT
+2026-07-08 22:55:04 [INFO] Extracted 9800 rows
+2026-07-08 22:55:04 [INFO] STEP 2: TRANSFORM
+2026-07-08 22:55:04 [INFO] Feature engineering complete
+2026-07-08 22:55:05 [INFO] STEP 3: LOAD
+2026-07-08 22:55:05 [INFO] Loaded 7353 rows into warehouse.db
+2026-07-08 22:55:05 [INFO] Reports generated successfully
+```
+
+Logs are written to:
+
+```
+logs/pipeline.log
+```
+
+---
+
+# ▶️ Getting Started
+
+## Clone the repository
+
+```bash
+git clone https://github.com/Zwavhudi05/etl-sales-pipeline.git
+
 cd etl-sales-pipeline
-2. Install dependencies
-Bash
+```
+
+---
+
+## Install dependencies
+
+```bash
 pip install -r requirements.txt
-3. Execute the pipeline
-Bash
+```
+
+---
+
+## Run the pipeline
+
+```bash
 python etl_pipeline.py
-Sample Execution Log Output
-Plaintext
-============================================================
-  SUPERSTORE ETL PIPELINE  |  Run ID: 20260708_225504
-============================================================
-2026-07-08 22:55:04  [INFO]  STEP 1: EXTRACT
-2026-07-08 22:55:04  [INFO]  Extracted 9,800 rows from data\superstore_raw.csv
-2026-07-08 22:55:04  [INFO]  STEP 2: TRANSFORM
-2026-07-08 22:55:04  [INFO]  --- Starting transformation chain ---
-2026-07-08 22:55:04  [INFO]  Initial rows: 9800
-2026-07-08 22:55:04  [INFO]  Columns standardised
-2026-07-08 22:55:04  [INFO]  Dropped 2447 rows with missing critical data | 7353 rows remaining
-2026-07-08 22:55:04  [INFO]  Feature engineering complete: 6 derived attributes built
-2026-07-08 22:55:04  [INFO]  --- Transformation complete | Final shape: (7353, 24) ---
-2026-07-08 22:55:04  [INFO]  STEP 3: LOAD
-2026-07-08 22:55:05  [INFO]  Loaded 7,353 rows into 'sales_fact' table in warehouse.db
-2026-07-08 22:55:05  [INFO]  All summary reports generated successfully.
-============================================================
-  PIPELINE COMPLETE in 0.53s
-============================================================
-Tech Stack
-Python 3 - Operational Orchestration Engine
+```
 
-Pandas - Structural Matrix Extraction and Vector Transform
+---
 
-SQLite - Relational Data Storage Engine
+# 📈 Sample Run
 
-Logging - Execution Telemetry Monitoring
+```text
+============================================================
+SUPERSTORE ETL PIPELINE
+Run ID: 20260708_225504
+============================================================
+
+STEP 1: EXTRACT
+✓ Extracted 9,800 rows
+
+STEP 2: TRANSFORM
+✓ Standardised columns
+✓ Removed invalid records
+✓ Engineered 6 new features
+
+STEP 3: LOAD
+✓ Loaded 7,353 rows into SQLite
+✓ Generated 4 analytical reports
+
+============================================================
+Pipeline completed in 0.53 seconds
+============================================================
+```
+
+---
+
+# 🛠️ Tech Stack
+
+- Python 3
+- Pandas
+- SQLite
+- Logging
+- CSV
+- Git
+- GitHub
+
+---
+
+---
+
+## 👨‍💻 Author
+
+**Zwavhudi Mudogwa**
+
+GitHub: https://github.com/Zwavhudi05
