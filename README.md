@@ -127,8 +127,6 @@ pip install pandas
 python etl_pipeline.py
 ```
 
-That's it. The warehouse, reports, and log are all created automatically.
-
 ---
 
 ## Tech Stack
