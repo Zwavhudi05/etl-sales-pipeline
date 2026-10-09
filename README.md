@@ -1,297 +1,126 @@
-# Superstore Sales ETL Pipeline
+# Retail Sales ETL Pipeline
 
-A modular Python **Extract → Transform → Load (ETL)** pipeline that processes raw retail sales data into a clean SQLite data warehouse and automatically generates analytical reports.
+A Python ETL project I built to practise moving raw sales data through a complete data pipeline — from extracting a CSV file to validating records and loading clean data into a SQLite database.
 
-The project simulates a real-world data engineering workflow by extracting raw transactional data, performing extensive cleaning and feature engineering, loading the processed data into a relational database, and exporting business-ready summary reports.
+The main focus was data quality. Instead of silently removing invalid records, the pipeline separates them into a rejection file so they can be reviewed.
 
----
+## What the Pipeline Does
 
-## Features
+1. **Extract:** Reads the raw sales data from a CSV file.
+2. **Transform:** Validates records, handles invalid values, standardises selected fields, and separates rejected records.
+3. **Load:** Stores the clean records in a SQLite database.
+4. **Validate:** Checks row counts to make sure records are accounted for and the database load matches the clean dataset.
+5. **Log:** Records pipeline progress, validation results, warnings, and errors.
 
-- Modular ETL architecture
-- Automated data cleaning and validation
-- Feature engineering for analytics
-- SQLite data warehouse
-- Automatic CSV report generation
-- Comprehensive execution logging
-- Runs with a single command
-- Completes in under one second
+## Tools Used
 
----
+* Python
+* pandas
+* SQLite
+* SQL
+* Python logging
+* Git and GitHub
 
-# Pipeline Architecture
-
-```text
-data/superstore_raw.csv
-        │
-        ▼
-┌──────────────────────────────┐
-│          EXTRACT             │
-│ Read raw CSV into memory     │
-└──────────────┬───────────────┘
-               │
-               ▼
-┌──────────────────────────────┐
-│         TRANSFORM            │
-│                              │
-│ • Standardise column names   │
-│ • Parse dates                │
-│ • Validate records           │
-│ • Remove formatting issues   │
-│ • Engineer new features      │
-└──────────────┬───────────────┘
-               │
-               ▼
-┌──────────────────────────────┐
-│            LOAD              │
-│ SQLite Warehouse             │
-│ CSV Summary Reports          │
-└──────────────────────────────┘
-               │
-               ├── warehouse.db
-               ├── revenue_by_category.csv
-               ├── revenue_by_region.csv
-               ├── monthly_revenue_trend.csv
-               └── top_customers.csv
-```
-
----
-
-# Project Structure
+## Project Structure
 
 ```text
-etl-sales-pipeline/
-│
-├── etl_pipeline.py          # Main ETL orchestrator
-├── transform.py             # Data cleaning & feature engineering
-├── loader.py                # Database loading & report generation
+retail-sales-etl/
+├── config.py
+├── run_pipeline.py
 ├── requirements.txt
-│
 ├── data/
-│   └── superstore_raw.csv
-│
-├── output/
-│   ├── monthly_revenue_trend.csv
-│   ├── revenue_by_category.csv
-│   ├── revenue_by_region.csv
-│   └── top_customers.csv
-│
-├── logs/
-│   └── pipeline.log
-│
-└── warehouse.db
+│   └── raw/
+│       └── sales.csv
+├── src/
+│   ├── extract.py
+│   ├── transform.py
+│   └── load.py
+├── sql/
+│   └── analysis.sql
+└── .gitignore
 ```
 
----
+Generated files, including cleaned data, rejected records, the SQLite database, and logs, are created when the pipeline runs.
 
-# ⚙️ ETL Workflow
+## Data Quality Checks
 
-## 1️⃣ Extract
+The transformation stage applies the following rules:
 
-The pipeline:
+* Reject records with missing order or customer IDs.
+* Identify missing or invalid order and shipping dates.
+* Reject records where the shipping date is earlier than the order date.
+* Reject missing, invalid, or negative sales values.
+* Reject missing or non-positive quantities.
+* Standardise whitespace in region names and capitalisation in category names.
+* Reject duplicate records.
 
-- Reads the raw CSV dataset
-- Validates the file exists
-- Uses explicit CSV parsing options
-- Loads the dataset into a Pandas DataFrame
+Rejected rows are saved separately with a reason explaining why they failed validation.
 
----
+## Latest Test Results
 
-## 2️⃣ Transform
+The latest successful local run processed 10,015 source records.
 
-The transformation stage performs multiple data quality operations.
+| Result           |   Rows |
+| ---------------- | -----: |
+| Source records   | 10,015 |
+| Clean records    |  9,875 |
+| Rejected records |    140 |
 
-### Column Standardisation
+The pipeline checks that:
 
-- Converts column names to lowercase
-- Replaces spaces with underscores
+`Source rows = Clean rows + Rejected rows`
 
-Example:
+For this run, \(10,015 = 9,875 + 140\).
 
-```
-Order Date
-```
+It also checks that the number of records loaded into SQLite matches the number of clean records.
 
-becomes
+## Database and SQL
 
-```
-order_date
-```
+The pipeline creates a SQLite database with a `sales` table and an explicit schema. The `order_id` column is defined as the primary key to prevent duplicate order IDs from being stored.
 
----
+The file `sql/analysis.sql` contains SQL queries for exploring sales performance, including revenue, profit, regional performance, product performance, customer sales, and monthly trends.
 
-### Date Parsing
+## How to Run It
 
-Safely converts localized date strings (`DD/MM/YYYY`) into proper datetime objects.
+### 1. Install the dependencies
 
----
-
-### Data Validation
-
-Automatically removes records containing:
-
-- Missing Order IDs
-- Missing Customer IDs
-- Invalid dates
-- Corrupt records
-
----
-
-### Data Cleaning
-
-Removes formatting anomalies including:
-
-- Trailing semicolons
-- Incorrect numeric formatting
-- Invalid data types
-
----
-
-### Feature Engineering
-
-Creates six analytical columns:
-
-| Feature | Description |
-|----------|-------------|
-| order_year | Year of purchase |
-| order_month | Month number |
-| order_quarter | Quarter of sale |
-| shipping_days | Delivery duration |
-| sales_band | Sales category |
-| is_high_value | High-value transaction flag |
-
----
-
-## 3️⃣ Load
-
-The cleaned dataset is loaded into a SQLite data warehouse using a full-refresh approach.
-
-Database table:
-
-```
-sales_fact
-```
-
-The pipeline also exports four analytical reports:
-
-- Revenue by Category
-- Revenue by Region
-- Monthly Revenue Trend
-- Top Customers
-
----
-
-## 📊 Output
-
-After execution, the project generates:
-
-```text
-warehouse.db
-
-output/
-├── revenue_by_category.csv
-├── revenue_by_region.csv
-├── monthly_revenue_trend.csv
-└── top_customers.csv
-```
-
----
-
-# 📝 Logging
-
-Every ETL stage is logged with timestamps.
-
-Example:
-
-```text
-2026-07-08 22:55:04 [INFO] STEP 1: EXTRACT
-2026-07-08 22:55:04 [INFO] Extracted 9800 rows
-2026-07-08 22:55:04 [INFO] STEP 2: TRANSFORM
-2026-07-08 22:55:04 [INFO] Feature engineering complete
-2026-07-08 22:55:05 [INFO] STEP 3: LOAD
-2026-07-08 22:55:05 [INFO] Loaded 7353 rows into warehouse.db
-2026-07-08 22:55:05 [INFO] Reports generated successfully
-```
-
-Logs are written to:
-
-```
-logs/pipeline.log
-```
-
----
-
-# ▶️ Getting Started
-
-## Clone the repository
+Python must be installed. Open a terminal in the project directory and run:
 
 ```bash
-git clone https://github.com/Zwavhudi05/etl-sales-pipeline.git
-
-cd etl-sales-pipeline
+python -m pip install -r requirements.txt
 ```
 
----
-
-## Install dependencies
+### 2. Run the pipeline
 
 ```bash
-pip install -r requirements.txt
+python run_pipeline.py
 ```
 
----
+The pipeline reads the raw CSV, transforms and validates the records, saves the clean and rejected datasets, loads the clean data into SQLite, and records execution details in the log.
 
-## Run the pipeline
+## Generated Outputs
 
-```bash
-python etl_pipeline.py
-```
+After running the pipeline, you should find:
 
----
+* `data/processed/sales_clean.csv` — records that passed validation.
+* `data/rejected/sales_rejected.csv` — rejected records and their reasons.
+* `data/sales.db` — SQLite database containing the `sales` table.
+* `logs/pipeline.log` — pipeline execution log.
 
-# 📈 Sample Run
+These generated files are kept out of Git using `.gitignore`; the raw CSV and source code are included so the project can be run again.
 
-```text
-============================================================
-SUPERSTORE ETL PIPELINE
-Run ID: 20260708_225504
-============================================================
+## What I Want to Improve Next
 
-STEP 1: EXTRACT
-✓ Extracted 9,800 rows
+* Add automated tests for transformation rules and edge cases.
+* Introduce incremental loading instead of rebuilding the table on every run.
+* Add more detailed data-quality metrics.
+* Containerise the pipeline with Docker.
+* Extend the database layer to PostgreSQL.
 
-STEP 2: TRANSFORM
-✓ Standardised columns
-✓ Removed invalid records
-✓ Engineered 6 new features
+## Author
 
-STEP 3: LOAD
-✓ Loaded 7,353 rows into SQLite
-✓ Generated 4 analytical reports
+**Zwavhudi**
 
-============================================================
-Pipeline completed in 0.53 seconds
-============================================================
-```
+This project is part of my data engineering portfolio, where I'm building practical experience with Python, SQL, data quality, and database loading.
 
----
 
-# 🛠️ Tech Stack
-
-- Python 3
-- Pandas
-- SQLite
-- Logging
-- CSV
-- Git
-- GitHub
-
----
-
----
-
-## 👨‍💻 Author
-
-**Zwavhudi Mudogwa**
-
-GitHub: https://github.com/Zwavhudi05
